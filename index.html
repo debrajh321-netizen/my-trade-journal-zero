@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#d29b20">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="My Trade Journal">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="My Trade Journal">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<title>My Trade Journal — Trading Journal</title>
+<style>
+:root{--paper:#f7f4ec;--card:#fffdf8;--ink:#253043;--muted:#72766f;--gold:#d29b20;--teal:#2c8984;--red:#ca5b4e;--line:#ddd5c6;--shadow:0 4px 18px rgba(37,48,67,.05)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input{font:inherit}.hidden{display:none!important}
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--paper)}.authbox{width:min(430px,100%);background:var(--card);border:1px solid var(--line);padding:28px;box-shadow:var(--shadow)}
+.authbrand{font-family:Georgia,serif;font-size:34px;line-height:1;margin-bottom:7px}.authbrand em{color:var(--gold)}.authsub{font-size:11px;color:var(--muted);margin-bottom:24px}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:20px}.tab{padding:10px;border:0;border-bottom:2px solid transparent;background:transparent}.tab.active{color:var(--gold);border-bottom-color:var(--gold)}.authform{display:grid;gap:12px}.authform label{font-size:10px;color:var(--muted)}.authform input{width:100%;height:40px;border:1px solid var(--line);background:#fffdf8;padding:0 11px}.authmsg{font-size:10px;min-height:15px;color:var(--red)}.authnote{font-size:9px;color:var(--muted);line-height:1.5;margin-top:14px}
+.container{max-width:1180px;margin:auto;padding:0 28px 40px}.hero{padding:45px 0 38px;display:grid;grid-template-columns:1fr 160px;gap:30px;align-items:end}.hero h1{font-family:Georgia,serif;font-size:58px;line-height:.94;margin:0 0 18px;font-weight:500;letter-spacing:-2px}.hero h1 em{color:var(--gold);font-style:italic}.hero p{max-width:620px;color:var(--muted);font-size:13px;line-height:1.65;margin:0}.balance-card{background:var(--card);border-left:2px solid var(--gold);padding:16px 15px;min-height:90px}.kicker{font-size:9px;letter-spacing:.16em;color:var(--muted);font-weight:700}.balance-card .value{font-size:23px;margin-top:8px}.net{font-size:10px;color:var(--teal);margin-top:5px}
+.topgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.card{background:rgba(255,253,248,.9);border:1px solid var(--line);box-shadow:var(--shadow);padding:20px;border-radius:2px}.card h2{font-size:15px;margin:7px 0 18px}.section-head{display:flex;justify-content:space-between;align-items:flex-start}.round{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#f6ead0;color:var(--gold);font-weight:800}.round.teal{background:#dcefed;color:var(--teal)}.round.red{background:#f5dfdc;color:var(--red)}.desc{font-size:11px;color:var(--muted);margin:-9px 0 20px}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field.full{grid-column:1/-1}.field label{display:flex;justify-content:space-between;font-size:10px;color:#4f554f;margin-bottom:5px}.unit{font-size:8px;color:var(--muted)}input{width:100%;height:36px;border:1px solid #d7cebd;background:#fffdf8;padding:0 10px;color:var(--ink);outline:none}input:focus{border-color:var(--gold)}.help{font-size:9px;color:var(--muted);margin-top:4px}
+.calc{margin-top:15px;border:1px solid var(--line);background:#f9f6ee;padding:15px}.calc-row{display:flex;justify-content:space-between;align-items:center}.calc .answer{font-size:19px;font-weight:700;color:var(--ink)}.calc .formula{font-family:monospace;font-size:9px;color:var(--muted)}
+.summary-list{margin-top:5px}.row{display:flex;justify-content:space-between;border-bottom:1px dashed #d8d0c2;padding:9px 0;font-size:10px}.row:last-child{border:0}.green{color:var(--teal)}.red{color:var(--red)}.summary-net{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.summary-net strong{font-size:22px;color:var(--teal)}
+.smallgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:14px}.smallmetric label{display:block;font-size:8px;letter-spacing:.08em;color:var(--muted);margin-bottom:5px}.smallmetric b{font-size:12px}.barline{height:3px;background:#e5dfd3;margin-top:8px}.barline span{height:100%;display:block;background:var(--red);width:0}
+.settings{margin-top:14px}.settings .hint{font-size:10px;color:var(--muted);line-height:1.5;margin:0 0 17px}button{height:34px;border:1px solid var(--line);background:#fffdf8;padding:0 14px;cursor:pointer;color:var(--ink);font-size:10px;font-weight:700}button:hover{filter:brightness(.98)}.btnrow{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.profit{background:var(--teal);border-color:var(--teal);color:white}.loss{background:var(--red);border-color:var(--red);color:white}.restore{color:var(--red);border-color:#e5aaa3}
+.journal{margin-top:14px}.result-row{display:grid;grid-template-columns:215px 1fr;gap:15px;align-items:end}.amount-wrap input{font-size:12px}.session{margin-top:14px;border-top:2px solid var(--gold);padding-top:18px}.session-head{display:flex;justify-content:space-between;align-items:center}.session h2{font-size:18px;font-weight:500;margin:5px 0}.pdf{height:34px;border-color:#e0c36e;color:var(--gold);background:#fffaf0}.pdf.ready{background:#d29b20;color:white;border-color:#d29b20}
+.progressbox{border:1px solid var(--line);padding:13px 15px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.progressbox strong{font-family:monospace;font-size:12px}.progress-track{height:4px;background:#e5dfd3;margin-top:12px}.progress-track span{display:block;height:100%;background:var(--gold);width:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);margin-top:14px}.stat{padding:13px 15px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat label{font-size:8px;letter-spacing:.1em;color:var(--muted)}.stat b{display:block;margin-top:5px;font-family:monospace;font-size:12px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.chart{border:1px solid var(--line);padding:12px;background:#fffdf8}.charttitle{display:flex;justify-content:space-between;font-size:9px;margin-bottom:8px}.charttitle span{color:var(--muted)}svg{width:100%;height:150px;display:block}
+.history{border:1px solid var(--line);margin-top:12px}.history-head{display:flex;justify-content:space-between;padding:9px 12px;font-size:8px;letter-spacing:.1em;color:var(--muted);border-bottom:1px solid var(--line)}table{width:100%;border-collapse:collapse;font-size:9px}th,td{padding:9px 12px;border-bottom:1px dashed #ddd5c6;text-align:right}th:first-child,td:first-child{text-align:center}th{font-weight:500;color:var(--muted);font-size:8px}.empty{text-align:center;color:var(--muted);padding:22px}.footer{text-align:center;color:var(--muted);font-size:9px;margin-top:28px}
+.userbar{position:absolute;right:28px;top:18px;display:flex;align-items:center;gap:8px;font-size:9px;color:var(--muted)}.userbar button{height:28px;padding:0 10px}
+@media(max-width:800px){.hero,.topgrid,.charts{grid-template-columns:1fr}.hero h1{font-size:44px}.balance-card{max-width:180px}.result-row{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.smallgrid{gap:10px}.userbar{position:static;padding-top:14px;justify-content:flex-end}}
+@media print{button,.pdf,.userbar{display:none!important}body{background:#fff}.container{max-width:none;padding:0 12px}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+
+<section id="auth" class="auth">
+  <div class="authbox">
+    <div class="authbrand">My Trade <em>Journal.</em></div>
+    <div class="authsub">Private trading journal • Username + password only • No Google login</div>
+    <div class="tabs"><button id="loginTab" class="tab active" onclick="showAuth('login')">LOG IN</button><button id="signupTab" class="tab" onclick="showAuth('signup')">CREATE ACCOUNT</button></div>
+    <form id="loginForm" class="authform" onsubmit="event.preventDefault();login()">
+      <div><label>USERNAME</label><input id="loginUser" autocomplete="username" required></div>
+      <div><label>PASSWORD</label><input id="loginPass" type="password" autocomplete="current-password" required></div>
+      <div id="loginMsg" class="authmsg"></div><button class="profit" type="submit">LOG IN</button>
+    </form>
+    <form id="signupForm" class="authform hidden" onsubmit="event.preventDefault();signup()">
+      <div><label>USERNAME</label><input id="newUser" autocomplete="username" minlength="3" required></div>
+      <div><label>NEW PASSWORD</label><input id="newPass" type="password" autocomplete="new-password" minlength="6" required></div>
+      <div><label>CONFIRM PASSWORD</label><input id="confirmPass" type="password" autocomplete="new-password" minlength="6" required></div>
+      <div id="signupMsg" class="authmsg"></div><button class="profit" type="submit">CREATE ACCOUNT</button>
+    </form>
+    <div class="authnote">Each username can have only one account. Each account has separate trading data. Passwords are stored as browser-side hashes; this free edition does not use a cloud server.</div>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+<div class="userbar"><span id="who"></span><button onclick="logout()">LOG OUT</button></div>
+<div class="container">
+<header class="hero">
+  <div><h1>My Trade<br><em>Journal.</em></h1><p>Size every gold position before you place it. Keep your downside visible, your process steady, and your account in the trade.</p></div>
+  <div class="balance-card"><div class="kicker">▣ CURRENT BALANCE</div><div class="value" id="heroBalance">$100.00</div><div class="net" id="heroNet">↗ $0.00 net</div></div>
+</header>
+
+<div class="topgrid">
+<section class="card">
+  <div class="section-head"><div><div class="kicker">01 / POSITION SIZING</div><h2>Trade risk calculator</h2></div><div class="round">⌁</div></div>
+  <p class="desc">Define the amount you can lose, then let the instrument tell you how much to trade.</p>
+  <div class="form2">
+    <div class="field"><label>Risk amount <span class="unit">USD</span></label><input id="risk" type="number" min="0" step=".01" placeholder="e.g. 75"><div class="help">What you are comfortable losing</div></div>
+    <div class="field"><label>Stop loss distance <span class="unit">USD</span></label><input id="distance" type="number" min="0" step=".01" placeholder="e.g. 12.50"><div class="help">Your planned move against you</div></div>
+    <div class="field full"><label>Contract size <span class="unit">OZ</span></label><input id="contract" type="number" min="0" step="1" placeholder="e.g. 100"><div class="help">Ounces represented by one lot</div></div>
+  </div>
+  <div class="calc"><div class="calc-row"><span class="kicker">REQUIRED LOT SIZE</span><span class="formula">risk ÷ (distance × contract)</span></div><div class="answer" id="lot">☷ &nbsp; Enter all three values to calculate a position.</div></div>
+  <div class="help" style="margin-top:10px">ⓘ A smaller lot keeps the same risk when your stop is wider.</div>
+</section>
+
+<section class="card">
+  <div class="section-head"><div><div class="kicker">02 / ACCOUNT PULSE</div><h2>Account summary</h2></div><div class="round teal">⌁</div></div>
+  <div class="summary-net"><div><div class="kicker">NET P/L</div><strong id="net">+$0.00</strong></div><span id="pnlBadge" class="green" style="background:#e3f1ef;padding:5px 7px;font-size:9px">+0.00%</span></div>
+  <div class="summary-list">
+    <div class="row"><span>Starting balance</span><b id="sumStart">$100.00</b></div>
+    <div class="row"><span>Maximum allowed loss</span><b id="sumMax">$50.00</b></div>
+    <div class="row"><span>Current balance</span><b id="sumBal">$100.00</b></div>
+    <div class="row"><span>Total profit</span><b class="green" id="sumProfit">$0.00</b></div>
+    <div class="row"><span>Total loss</span><b class="red" id="sumLoss">$0.00</b></div>
+  </div>
+  <div class="smallgrid"><div class="smallmetric"><label>REMAINING LOSS LIMIT</label><b id="remaining">$50.00</b><div class="barline"><span id="lossbar"></span></div></div><div class="smallmetric"><label>DRAWDOWN PERCENTAGE</label><b id="dd">0.00%</b></div></div>
+</section>
+
+<section class="card journal">
+  <div class="section-head"><div><div class="kicker">03 / JOURNAL ENTRY</div><h2>Record a trade result</h2></div><div class="round red">$</div></div>
+  <div class="result-row">
+    <div class="amount-wrap"><label class="kicker" style="display:block;margin-bottom:6px">RESULT AMOUNT <span class="unit">USD</span></label><input id="amount" type="number" min="0" step=".01" placeholder="$ 0.00"></div>
+    <div class="btnrow"><button class="profit" onclick="record(1)">↗ &nbsp; Add profit</button><button class="loss" onclick="record(-1)">↘ &nbsp; Add loss</button><button onclick="restore()">↻ &nbsp; Reset account</button></div>
+  </div>
+</section>
+
+<section class="card settings">
+  <div class="section-head"><div><div class="kicker">04 / GUARDRAILS</div><h2>Account settings</h2></div><div class="round">⚙</div></div>
+  <p class="hint">These values anchor every percentage and loss warning. Changes save automatically.</p>
+  <div class="form2">
+    <div class="field"><label>Starting balance <span class="unit">USD</span></label><input id="start" type="number" min="0" step=".01"></div>
+    <div class="field"><label>Maximum allowed loss <span class="unit">USD</span></label><input id="maxLoss" type="number" min="0" step=".01"></div>
+  </div>
+  <div class="help" style="margin:14px 0">♧ Your loss limit is a hard reference point, not a target.</div>
+  <button class="restore" onclick="restore()">↻ &nbsp; RESTORE ACCOUNT</button>
+</section>
+</div>
+
+<section class="session">
+  <div class="session-head"><div><div class="kicker">05 / PERFORMANCE REVIEW</div><h2>30 Trade Session</h2><div class="help">A live record of this session, updated with every account result.</div></div><button id="pdfBtn" class="pdf hidden" onclick="downloadPDF()">⇩ &nbsp; Download PDF Report</button></div>
+  <div class="progressbox"><div><div class="kicker">SESSION PROGRESS</div><strong>Trades Completed: <span id="count">0</span> / 30</strong></div><button onclick="resetSession()">↻ &nbsp; Reset 30-Trade Session</button></div>
+  <div class="progress-track"><span id="progress"></span></div>
+  <div class="stats"><div class="stat"><label>SESSION NET P/L</label><b class="green" id="sNet">$0.00</b></div><div class="stat"><label>WIN RATE</label><b id="win">+0.00%</b></div><div class="stat"><label>MAXIMUM DRAWDOWN</label><b class="red" id="maxDD">0.00%</b></div></div>
+  <div class="charts">
+    <div class="chart"><div class="charttitle"><span>01 / RESULT PROFILE</span><b>Profit / Loss</b></div><svg id="bars" viewBox="0 0 600 180" preserveAspectRatio="none"></svg></div>
+    <div class="chart"><div class="charttitle"><span>02 / ACCOUNT PATH</span><b>Equity Curve / Balance Growth</b></div><svg id="curve" viewBox="0 0 600 180" preserveAspectRatio="none"></svg></div>
+  </div>
+  <div class="history"><div class="history-head"><span>TRADE-BY-TRADE HISTORY</span><b id="logged">0 OF 30 LOGGED</b></div><table><thead><tr><th>TRADE</th><th>PROFIT / LOSS</th><th>BALANCE AFTER TRADE</th><th>RUNNING NET P/L</th></tr></thead><tbody id="history"></tbody></table><div class="empty" id="empty">No trades logged yet.</div></div>
+</section>
+<div class="footer">Free edition • Separate account data • Browser-side storage</div>
+</div>
+</div>
+
+<script>
+const ACC="mos_accounts_v4", CUR="mos_current_v4";
+let current=null;
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+function accounts(){return JSON.parse(localStorage.getItem(ACC)||"{}")}
+function saveAccounts(a){localStorage.setItem(ACC,JSON.stringify(a))}
+async function hashPass(p){const data=new TextEncoder().encode(p);const h=await crypto.subtle.digest("SHA-256",data);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function showAuth(which){
+ $("loginForm").classList.toggle("hidden",which!=="login");$("signupForm").classList.toggle("hidden",which!=="signup");
+ $("loginTab").classList.toggle("active",which==="login");$("signupTab").classList.toggle("active",which==="signup");$("loginMsg").textContent="";$("signupMsg").textContent="";
+}
+async function signup(){
+ const u=$("newUser").value.trim(),p=$("newPass").value,c=$("confirmPass").value;
+ if(!/^[A-Za-z0-9_.-]{3,30}$/.test(u)){$("signupMsg").textContent="Username: 3–30 letters, numbers, dot, dash or underscore.";return}
+ if(p.length<6){$("signupMsg").textContent="Password must be at least 6 characters.";return}
+ if(p!==c){$("signupMsg").textContent="Passwords do not match.";return}
+ const a=accounts(),key=u.toLowerCase();
+ if(a[key]){$("signupMsg").textContent="This username already exists. Choose another.";return}
+ a[key]={username:u,passHash:await hashPass(p),data:{start:100,maxLoss:50,trades:[]}};
+ saveAccounts(a);current=key;localStorage.setItem(CUR,key);openApp();alert("Account created successfully.");
+}
+async function login(){
+ const u=$("loginUser").value.trim(),p=$("loginPass").value,a=accounts(),key=u.toLowerCase();
+ if(!a[key]||a[key].passHash!==await hashPass(p)){$("loginMsg").textContent="Incorrect username or password.";return}
+ current=key;localStorage.setItem(CUR,key);openApp();
+}
+function logout(){current=null;localStorage.removeItem(CUR);$("app").classList.add("hidden");$("auth").classList.remove("hidden");$("loginPass").value="";showAuth("login")}
+function openApp(){const a=accounts();if(!current||!a[current])return;$("auth").classList.add("hidden");$("app").classList.remove("hidden");$("who").textContent="USER: "+a[current].username;render()}
+function getData(){return accounts()[current].data}
+function updateData(d){const a=accounts();a[current].data=d;saveAccounts(a)}
+function record(sign){
+ let d=getData();if(d.trades.length>=30){alert("30 trades are complete. Download the PDF report or reset the session.");return}
+ let amount=Math.abs(+$("amount").value||0);if(!amount)return;
+ let v=sign*amount,prev=d.trades.length?d.trades.at(-1).balanceAfter:d.start;
+ d.trades.push({n:d.trades.length+1,v,balanceAfter:prev+v,net:d.trades.reduce((x,t)=>x+t.v,0)+v});
+ $("amount").value="";updateData(d);render();
+}
+function restore(){if(confirm("Reset this account's balance settings and all trade history?")){updateData({start:100,maxLoss:50,trades:[]});render()}}
+function resetSession(){if(confirm("Reset only the 30-trade session? Account settings will stay unchanged.")){let d=getData();d.trades=[];updateData(d);render()}}
+$("start").onchange=()=>{let d=getData();d.start=Math.max(0,+$("start").value||0);updateData(d);render()}
+$("maxLoss").onchange=()=>{let d=getData();d.maxLoss=Math.max(0,+$("maxLoss").value||0);updateData(d);render()}
+["risk","distance","contract"].forEach(id=>$(id).oninput=calc)
+function calc(){let r=+$("risk").value,d=+$("distance").value,c=+$("contract").value;if(r&&d&&c)$("lot").textContent=(r/(d*c)).toFixed(4)+" lots";else $("lot").innerHTML="☷ &nbsp; Enter all three values to calculate a position."}
+function metrics(){
+ let d=getData(),ts=d.trades,profit=ts.filter(t=>t.v>0).reduce((x,t)=>x+t.v,0),loss=ts.filter(t=>t.v<0).reduce((x,t)=>x-t.v,0),net=profit-loss,bal=ts.length?ts.at(-1).balanceAfter:d.start,pnl=d.start?net/d.start*100:0,peak=d.start,maxdd=0;
+ ts.forEach(t=>{peak=Math.max(peak,t.balanceAfter);maxdd=Math.max(maxdd,peak?(peak-t.balanceAfter)/peak*100:0)});
+ return {d,ts,profit,loss,net,bal,pnl,maxdd,remain:Math.max(0,d.maxLoss-loss)}
+}
+function render(){
+ let {d,ts,profit,loss,net,bal,pnl,maxdd,remain}=metrics();
+ $("start").value=d.start;$("maxLoss").value=d.maxLoss;$("heroBalance").textContent=money(bal);$("heroNet").textContent=(net>=0?"↗ ":"↘ ")+money(Math.abs(net))+" net";
+ $("net").textContent=(net>=0?"+":"-")+money(Math.abs(net));$("pnlBadge").textContent=(pnl>=0?"+":"")+pnl.toFixed(2)+"%";$("sumStart").textContent=money(d.start);$("sumMax").textContent=money(d.maxLoss);$("sumBal").textContent=money(bal);$("sumProfit").textContent=money(profit);$("sumLoss").textContent="-"+money(loss).replace("$","");
+ $("remaining").textContent=money(remain);$("lossbar").style.width=(d.maxLoss?Math.min(100,loss/d.maxLoss*100):0)+"%";$("dd").textContent=maxdd.toFixed(2)+"%";
+ $("count").textContent=ts.length;$("logged").textContent=ts.length+" OF 30 LOGGED";$("progress").style.width=ts.length/30*100+"%";$("sNet").textContent=(net>=0?"+":"-")+money(Math.abs(net));$("win").textContent=(ts.length?ts.filter(t=>t.v>0).length/ts.length*100:0).toFixed(2)+"%";$("maxDD").textContent=maxdd.toFixed(2)+"%";
+ $("history").innerHTML=ts.map(t=>`<tr><td>${String(t.n).padStart(2,"0")}</td><td class="${t.v>=0?"green":"red"}">${t.v>=0?"+":"-"}${money(Math.abs(t.v))}</td><td>${money(t.balanceAfter)}</td><td class="${t.net>=0?"green":"red"}">${t.net>=0?"+":"-"}${money(Math.abs(t.net))}</td></tr>`).join("");
+ $("empty").style.display=ts.length?"none":"block";
+ $("pdfBtn").classList.toggle("hidden",ts.length!==30);$("pdfBtn").classList.toggle("ready",ts.length===30);
+ drawBars();drawCurve();calc();
+}
+function drawBars(){let svg=$("bars"),ts=getData().trades,w=600,h=180,p=25;svg.innerHTML="";if(!ts.length){svg.innerHTML='<text x="300" y="100" text-anchor="middle" fill="#72766f" font-size="12">Trade results will appear here</text>';return}let max=Math.max(1,...ts.map(t=>Math.abs(t.v))),bw=(w-2*p)/ts.length;svg.innerHTML+='<line x1="20" y1="90" x2="580" y2="90" stroke="#ddd5c6"/>';ts.forEach((t,i)=>{let bh=Math.abs(t.v)/max*62,x=p+i*bw+bw*.15,y=t.v>=0?90-bh:90;svg.innerHTML+=`<rect x="${x}" y="${y}" width="${bw*.7}" height="${bh}" fill="${t.v>=0?"#2c8984":"#ca5b4e"}"/><text x="${x+bw*.35}" y="170" text-anchor="middle" fill="#72766f" font-size="9">${t.n}</text>`})}
+function drawCurve(){let svg=$("curve"),ts=getData().trades,vals=[getData().start,...ts.map(t=>t.balanceAfter)],w=600,h=180,p=25;svg.innerHTML="";if(!ts.length){svg.innerHTML='<text x="300" y="100" text-anchor="middle" fill="#72766f" font-size="12">Your balance path will appear here</text>';return}let min=Math.min(...vals),max=Math.max(...vals),range=max-min||1,pts=vals.map((v,i)=>[p+i*(w-2*p)/(vals.length-1),h-p-(v-min)/range*(h-2*p)]);svg.innerHTML+='<line x1="25" y1="155" x2="575" y2="155" stroke="#ddd5c6"/>';svg.innerHTML+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#d29b20" stroke-width="3"/>`;pts.forEach(p=>svg.innerHTML+=`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#d29b20"/>`)}
+
+/* A small dependency-free PDF writer. It creates the report only after 30/30. */
+function pdfEsc(s){return String(s).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
+function pdfText(cmd,x,y,text,size=8,color="0.15 0.19 0.26"){cmd.push(`${color} rg BT /F1 ${size} Tf 1 0 0 1 ${x} ${y} Tm (${pdfEsc(text)}) Tj ET`)}
+function pdfLine(cmd,x1,y1,x2,y2,color="0.75 0.72 0.65",width=0.6){cmd.push(`${color} RG ${width} w ${x1} ${y1} m ${x2} ${y2} l S`)}
+function pdfRect(cmd,x,y,w,h,fill,stroke=null,width=.6){if(fill)cmd.push(`${fill} rg ${x} ${y} ${w} ${h} re f`);if(stroke)cmd.push(`${stroke} RG ${width} w ${x} ${y} ${w} ${h} re S`)}
+function buildPDF(){
+ const {d,ts,profit,loss,net,bal,pnl,maxdd}=metrics(),date=new Date().toLocaleDateString("en-US"),wins=ts.filter(t=>t.v>0).length,loses=ts.filter(t=>t.v<0).length;
+ let cmd=[];
+ pdfRect(cmd,0,780,595,62,"0.14 0.18 0.24");pdfText(cmd,30,814,"30-TRADE PERFORMANCE REPORT",16,"1 1 1");pdfText(cmd,30,798,"AURUM RISK DESK / XAUUSD / "+date,7,"0.78 0.70 0.48");
+ pdfText(cmd,30,758,"ACCOUNT SUMMARY",9,"0.82 0.61 0.13");pdfLine(cmd,30,748,565,748);
+ pdfText(cmd,30,731,"Starting Balance",7);pdfText(cmd,140,731,money(d.start),8);pdfText(cmd,230,731,"Maximum Allowed Loss",7);pdfText(cmd,365,731,money(d.maxLoss),8);
+ pdfText(cmd,30,712,"Ending Balance",7);pdfText(cmd,140,712,money(bal),8);pdfText(cmd,230,712,"Total Profit",7);pdfText(cmd,365,712,money(profit),8);
+ pdfText(cmd,30,693,"Total Loss",7);pdfText(cmd,140,693,"-"+money(loss).replace("$","$"),8);pdfText(cmd,230,693,"Net P/L",7);pdfText(cmd,365,693,(net>=0?"+":"-")+money(Math.abs(net)),8);
+ pdfText(cmd,30,674,"Account P/L Percentage",7);pdfText(cmd,140,674,(pnl>=0?"+":"")+pnl.toFixed(2)+"%",8);pdfText(cmd,230,674,"Maximum Drawdown",7);pdfText(cmd,365,674,maxdd.toFixed(2)+"%",8);
+ pdfText(cmd,30,655,"Winning Trades",7);pdfText(cmd,140,655,String(wins),8);pdfText(cmd,230,655,"Losing Trades",7);pdfText(cmd,365,655,String(loses),8);
+ let best=Math.max(...ts.map(t=>t.v)),worst=Math.min(...ts.map(t=>t.v));pdfText(cmd,30,636,"Win Rate",7);pdfText(cmd,140,636,(wins/30*100).toFixed(2)+"%",8);pdfText(cmd,230,636,"Best Trade",7);pdfText(cmd,365,636,(best>=0?"+":"-")+money(Math.abs(best)),8);pdfText(cmd,450,636,"Worst",7);pdfText(cmd,505,636,(worst>=0?"+":"-")+money(Math.abs(worst)),8);
+ pdfText(cmd,30,610,"TRADE JOURNAL",9,"0.82 0.61 0.13");pdfLine(cmd,30,602,565,602);
+ const xs=[40,170,305,445];pdfText(cmd,xs[0],587,"Trade Number",7,"0.40 0.42 0.40");pdfText(cmd,xs[1],587,"Profit / Loss",7,"0.40 0.42 0.40");pdfText(cmd,xs[2],587,"Balance After Trade",7,"0.40 0.42 0.40");pdfText(cmd,xs[3],587,"Running Net P/L",7,"0.40 0.42 0.40");
+ let y=570;ts.forEach(t=>{pdfLine(cmd,30,y-5,565,y-5,"0.86 0.83 0.76",.35);pdfText(cmd,xs[0],y,String(t.n),7);pdfText(cmd,xs[1],y,(t.v>=0?"+":"-")+money(Math.abs(t.v)),7,t.v>=0?"0.17 0.52 0.49":"0.78 0.25 0.20");pdfText(cmd,xs[2],y,money(t.balanceAfter),7);pdfText(cmd,xs[3],y,(t.net>=0?"+":"-")+money(Math.abs(t.net)),7,t.net>=0?"0.17 0.52 0.49":"0.78 0.25 0.20");y-=13});
+ pdfText(cmd,30,168,"PROFIT / LOSS BY TRADE",9,"0.82 0.61 0.13");pdfLine(cmd,30,160,565,160);
+ let chartX=45,chartY=38,chartW=520,chartH=105,barW=chartW/30*.65,maxAbs=Math.max(1,...ts.map(t=>Math.abs(t.v)));pdfLine(cmd,chartX,chartY+chartH/2,chartX+chartW,chartY+chartH/2,"0.82 0.80 0.74",.5);
+ ts.forEach((t,i)=>{let bh=Math.abs(t.v)/maxAbs*(chartH/2-8),x=chartX+i*(chartW/30)+(chartW/30-barW)/2,yb=chartY+chartH/2;if(t.v>=0){pdfRect(cmd,x,yb,barW,bh,"0.17 0.52 0.49")}else{pdfRect(cmd,x,yb-bh,barW,bh,"0.78 0.25 0.20")}if(i===0||i===4||i===9||i===14||i===19||i===24||i===29)pdfText(cmd,x,23,String(t.n),5,"0.45 0.45 0.42")});
+ pdfText(cmd,30,12,"Session net P/L "+(net>=0?"+":"-")+money(Math.abs(net))+" | 30 trades recorded",7,"0.40 0.42 0.40");
+ const content=cmd.join("\n"),objs=[];objs.push("<< /Type /Catalog /Pages 2 0 R >>");objs.push("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");objs.push("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>");objs.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");objs.push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+ let pdf="%PDF-1.4\n",offs=[0];objs.forEach((o,i)=>{offs[i+1]=pdf.length;pdf+=(i+1)+" 0 obj\n"+o+"\nendobj\n"});let xref=pdf.length;pdf+="xref\n0 "+(objs.length+1)+"\n0000000000 65535 f \n";for(let i=1;i<=objs.length;i++)pdf+=String(offs[i]).padStart(10,"0")+" 00000 n \n";pdf+="trailer\n<< /Size "+(objs.length+1)+" /Root 1 0 R >>\nstartxref\n"+xref+"\n%%EOF";
+ return new Blob([pdf],{type:"application/pdf"});
+}
+function downloadPDF(){
+ if(getData().trades.length!==30){alert("PDF becomes available only after 30/30 trades.");return}
+ const blob=buildPDF(),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="aurum-30-trade-performance-report.pdf";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+(function(){const k=localStorage.getItem(CUR),a=accounts();if(k&&a[k]){current=k;openApp()}})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js', {scope: './'}).catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+MY TRADE JOURNAL — PWA
+
+Upload the CONTENTS of this folder to the ROOT of the GitHub Pages repository.
+Do not upload the outer folder itself.
+
+Required at repository root:
+index.html
+manifest.webmanifest
+sw.js
+icons/icon-192.png
+icons/icon-512.png
+
+After publishing over HTTPS, open the site in Android Chrome. If Chrome has already cached an older version, clear the site's storage or wait for the new service worker to activate, then reload. The browser menu should offer Install app / Add to Home screen when Chrome's installability checks pass.
+
+App name: My Trade Journal
+In-app branding: My Trading Journal and Risk Calculator
