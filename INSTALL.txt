@@ -1,16 +1,9 @@
-MY TRADE JOURNAL — PWA
+MY TRADE JOURNAL — MOBILE APP INSTALL
 
-Upload the CONTENTS of this folder to the ROOT of the GitHub Pages repository.
-Do not upload the outer folder itself.
+This is the PWA version of V4. It keeps the existing app features and adds install-to-home-screen support.
 
-Required at repository root:
-index.html
-manifest.webmanifest
-sw.js
-icons/icon-192.png
-icons/icon-512.png
+IMPORTANT: A PWA must be hosted on an HTTPS website. Opening index.html directly from a ZIP will not provide the Install App option.
 
-After publishing over HTTPS, open the site in Android Chrome. If Chrome has already cached an older version, clear the site's storage or wait for the new service worker to activate, then reload. The browser menu should offer Install app / Add to Home screen when Chrome's installability checks pass.
+Android: open the HTTPS website in Chrome -> menu (⋮) -> Install app / Add to Home screen.
 
-App name: My Trade Journal
-In-app branding: My Trading Journal and Risk Calculator
+The current login/data system remains browser-local. PC and phone data do not sync automatically.
